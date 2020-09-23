@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Service\Order;
 
+use Facade\BasketManager;
 use Model;
 use Model\Entity\Product;
 use Model\Repository\ProductRepository;
@@ -90,10 +91,8 @@ class Basket
      */
     public function checkout(): void
     {
-        $basketBuilder = new BasketBuilder();
-        $basketBuilder->setBilling(new Card())->setDiscount(new NullObject())->setCommunication(new Email())->setSecurity(new Security());
-        $checkoutProcess = new CheckoutProcess($basketBuilder);
-
+        $checkout = new BasketManager(new BasketBuilder(), $this->session);
+        $checkoutProcess = new CheckoutProcess($checkout->setCheckout());
         $checkoutProcess->run();
     }
 
