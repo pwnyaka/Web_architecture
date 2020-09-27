@@ -9,7 +9,8 @@ use Service\User\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-
+// где конекретно я не нашел, но думаю паттерн шаблонный метод мог бы быть здесь, а именно описана какая то общая послледовательность
+// действий, и абстрактные методы, реализация которых у каждого потомка была бы своя
 abstract class BaseController
 {
     /**
