@@ -15,6 +15,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
+use Framework\Command\RegisterConfigsHandler;
+use Framework\Command\RegisterRoutesHandler;
 
 class Kernel
 {
@@ -39,6 +41,8 @@ class Kernel
      */
     public function handle(Request $request): Response
     {
+//        (new RegisterRoutesHandler($this))->execute();
+//        (new RegisterConfigsHandler($this))->execute();
         $this->registerConfigs();
         $this->registerRoutes();
 
@@ -48,7 +52,7 @@ class Kernel
     /**
      * @return void
      */
-    protected function registerConfigs(): void
+    public function registerConfigs(): void
     {
         try {
             $fileLocator = new FileLocator(__DIR__ . DIRECTORY_SEPARATOR . 'config');
@@ -62,7 +66,7 @@ class Kernel
     /**
      * @return void
      */
-    protected function registerRoutes(): void
+    public function registerRoutes(): void
     {
         $this->routeCollection = require __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'routing.php';
         $this->containerBuilder->set('route_collection', $this->routeCollection);
