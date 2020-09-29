@@ -17,6 +17,7 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Framework\Command\RegisterConfigsHandler;
 use Framework\Command\RegisterRoutesHandler;
+use Framework\Command\KernelCommand;
 
 class Kernel
 {
@@ -41,35 +42,13 @@ class Kernel
      */
     public function handle(Request $request): Response
     {
-//        (new RegisterRoutesHandler($this))->execute();
-//        (new RegisterConfigsHandler($this))->execute();
-        $this->registerConfigs();
-        $this->registerRoutes();
+        $registerConfigs = new RegisterConfigsHandler($this->containerBuilder);
+        (new KernelCommand($registerConfigs))->execute();
+
+        $registerRoutes = new RegisterRoutesHandler($this->containerBuilder);
+        $this->routeCollection = (new KernelCommand($registerRoutes))->execute();
 
         return $this->process($request);
-    }
-
-    /**
-     * @return void
-     */
-    public function registerConfigs(): void
-    {
-        try {
-            $fileLocator = new FileLocator(__DIR__ . DIRECTORY_SEPARATOR . 'config');
-            $loader = new PhpFileLoader($this->containerBuilder, $fileLocator);
-            $loader->load('parameters.php');
-        } catch (\Throwable $e) {
-            die('Cannot read the config file. File: ' . __FILE__ . '. Line: ' . __LINE__);
-        }
-    }
-
-    /**
-     * @return void
-     */
-    public function registerRoutes(): void
-    {
-        $this->routeCollection = require __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'routing.php';
-        $this->containerBuilder->set('route_collection', $this->routeCollection);
     }
 
     /**

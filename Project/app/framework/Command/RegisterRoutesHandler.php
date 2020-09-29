@@ -4,30 +4,24 @@
 namespace Framework\Command;
 
 
-use Contract\CommandInterface;
+use Framework\Contract\HandlerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Routing\RouteCollection;
 
-class RegisterRoutesHandler implements CommandInterface
+class RegisterRoutesHandler implements HandlerInterface
 {
-    /**
-     * @var \Kernel
-     */
-    private $command;
+    private $containerBuilder;
+    private $routeCollection;
 
-    /**
-     * RegisterUser constructor.
-     * @param \Kernel $command
-     */
-    public function __construct(\Kernel $command)
+    public function __construct(ContainerBuilder $containerBuilder)
     {
-        $this->command = $command;
+        $this->containerBuilder = $containerBuilder;
     }
 
-    /**
-     * Выполнение команды.
-     */
-    public function execute(): void
+    public function kernelRegister()
     {
-        echo "Регистрируем пользователя с именем " .
-            "{$this->command->registerRoutes()}.\n";
+        $this->routeCollection = require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'routing.php';
+        $this->containerBuilder->set('route_collection', $this->routeCollection);
+        return $this->routeCollection;
     }
 }

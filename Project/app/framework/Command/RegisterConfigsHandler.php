@@ -4,30 +4,31 @@
 namespace Framework\Command;
 
 
-use Contract\CommandInterface;
+use Framework\Contract\HandlerInterface;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
-class RegisterConfigsHandler implements CommandInterface
+class RegisterConfigsHandler implements HandlerInterface
 {
-    /**
-     * @var \Kernel
-     */
-    private $command;
+    protected $containerBuilder;
 
-    /**
-     * RegisterUser constructor.
-     * @param \Kernel $command
-     */
-    public function __construct(\Kernel $command)
+    public function __construct(ContainerBuilder $containerBuilder)
     {
-        $this->command = $command;
+        $this->containerBuilder = $containerBuilder;
     }
 
-    /**
-     * Выполнение команды.
-     */
-    public function execute(): void
+    public function kernelRegister()
     {
-        echo "Регистрируем пользователя с именем " .
-            "{$this->command->registerConfigs()}.\n";
+        try {
+            $fileLocator = new FileLocator(dirname(__DIR__, 2) .  DIRECTORY_SEPARATOR . 'config');
+//            var_dump(dirname(__DIR__, 2));
+//            die;
+            $loader = new PhpFileLoader($this->containerBuilder, $fileLocator);
+            $loader->load('parameters.php');
+        } catch (\Throwable $e) {
+            die('Cannot read the config file. File: ' . __FILE__ . '. Line: ' . __LINE__);
+        }
     }
+
 }
