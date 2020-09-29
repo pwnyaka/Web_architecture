@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Route;
 
 $routes = new RouteCollection();
 
+
 $routes->add(
     'index',
     new Route('/', ['_controller' => [MainController::class, 'indexAction']])
