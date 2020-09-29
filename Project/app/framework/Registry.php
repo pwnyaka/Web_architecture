@@ -10,7 +10,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
-
+/*
+ * Пример реестра, через него осуществляем доступ к конфигу и роутам.
+ */
 class Registry
 {
     /**

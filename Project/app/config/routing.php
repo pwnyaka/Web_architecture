@@ -2,13 +2,19 @@
 
 use Controller\MainController;
 use Controller\OrderController;
-use Controller\ProductController;
+use Controller\ProductListController;
+use Controller\ProductInfoController;
 use Controller\UserController;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 
 $routes = new RouteCollection();
 
+
+/*
+ * Класс Route является Front Controller'ом. Создается коллекция роутов, для каждого роута через front controller
+ * определен контроллер и соответствующий метод.
+ */
 
 $routes->add(
     'index',
@@ -17,11 +23,11 @@ $routes->add(
 
 $routes->add(
     'product_list',
-    new Route('/product/list', ['_controller' => [ProductController::class, 'listAction']])
+    new Route('/product/list', ['_controller' => [ProductListController::class, 'listAction']])
 );
 $routes->add(
     'product_info',
-    new Route('/product/info/{id}', ['_controller' => [ProductController::class, 'infoAction']])
+    new Route('/product/info/{id}', ['_controller' => [ProductInfoController::class, 'infoAction']])
 );
 
 $routes->add(

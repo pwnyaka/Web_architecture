@@ -3,8 +3,6 @@
 
 namespace Framework\Command;
 
-
-
 use Framework\Contract\HandlerInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
