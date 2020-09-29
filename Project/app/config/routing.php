@@ -10,10 +10,12 @@ use Symfony\Component\Routing\Route;
 
 $routes = new RouteCollection();
 
+
 /*
  * Класс Route является Front Controller'ом. Создается коллекция роутов, для каждого роута через front controller
  * определен контроллер и соответствующий метод.
  */
+
 $routes->add(
     'index',
     new Route('/', ['_controller' => [MainController::class, 'indexAction']])

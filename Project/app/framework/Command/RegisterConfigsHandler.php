@@ -3,7 +3,6 @@
 
 namespace Framework\Command;
 
-
 use Framework\Contract\HandlerInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,8 +21,6 @@ class RegisterConfigsHandler implements HandlerInterface
     {
         try {
             $fileLocator = new FileLocator(dirname(__DIR__, 2) .  DIRECTORY_SEPARATOR . 'config');
-//            var_dump(dirname(__DIR__, 2));
-//            die;
             $loader = new PhpFileLoader($this->containerBuilder, $fileLocator);
             $loader->load('parameters.php');
         } catch (\Throwable $e) {
