@@ -4,6 +4,7 @@
 namespace Framework\Command;
 
 
+<<<<<<< HEAD
 use Framework\Contract\HandlerInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -31,4 +32,32 @@ class RegisterConfigsHandler implements HandlerInterface
         }
     }
 
+=======
+use Contract\CommandInterface;
+
+class RegisterConfigsHandler implements CommandInterface
+{
+    /**
+     * @var \Kernel
+     */
+    private $command;
+
+    /**
+     * RegisterUser constructor.
+     * @param \Kernel $command
+     */
+    public function __construct(\Kernel $command)
+    {
+        $this->command = $command;
+    }
+
+    /**
+     * Выполнение команды.
+     */
+    public function execute(): void
+    {
+        echo "Регистрируем пользователя с именем " .
+            "{$this->command->registerConfigs()}.\n";
+    }
+>>>>>>> 8bfcaa4e7a204e62dd51079bbc5d9ff77e752378
 }
